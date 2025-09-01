@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TIRED TRADER</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #181818;
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        margin-top: 20px;
+    }
+    #gameArea {
+        margin-top: 30px;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #444;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #666;
+    }
+    #message {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+
+<h1>TIRED TRADER</h1>
+<p>Your goal: Survive the market and keep your energy up!</p>
+
+<div id="gameArea">
+    <p>Energy: <span id="energy">100</span></p>
+    <p>Money: $<span id="money">1000</span></p>
+    <button onclick="trade()">Trade</button>
+    <button onclick="rest()">Rest</button>
+    <button onclick="buyCoffee()">Buy Coffee ($50)</button>
+    <p id="message"></p>
+</div>
+
+<script>
+    let energy = 100;
+    let money = 1000;
+
+    function trade() {
+        if (energy <= 0) {
+            setMessage("Too tired to trade! Rest first.");
+            return;
+        }
+        let profit = Math.floor(Math.random() * 200) - 50;
+        money += profit;
+        energy -= 20;
+        updateStats();
+        if (profit >= 0) {
+            setMessage("You made $" + profit + " from trading!");
+        } else {
+            setMessage("You lost $" + Math.abs(profit) + " in trading.");
+        }
+    }
+
+    function rest() {
+        energy += 30;
+        if (energy > 100) energy = 100;
+        updateStats();
+        setMessage("You took a rest. Energy restored.");
+    }
+
+    function buyCoffee() {
+        if (money < 50) {
+            setMessage("Not enough money to buy coffee.");
+            return;
+        }
+        money -= 50;
+        energy += 50;
+        if (energy > 100) energy = 100;
+        updateStats();
+        setMessage("Coffee bought! Energy boosted.");
+    }
+
+    function updateStats() {
+        document.getElementById("energy").textContent = energy;
+        document.getElementById("money").textContent = money;
+    }
+
+    function setMessage(msg) {
+        document.getElementById("message").textContent = msg;
+    }
+</script>
+
+</body>
+</html>
